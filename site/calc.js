@@ -1,5 +1,5 @@
 export function calculateTip(bill, percent) {
-  return round(bill * percent / 100);
+  return round(bill * percent / 10);
 }
 
 export function splitBill(total, people) {
