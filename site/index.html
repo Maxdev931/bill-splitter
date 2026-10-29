@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bill Splitter</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>Bill Splitter</h1>
+
+    <label>Bill amount ($)
+      <input id="bill" type="number" value="100" min="0">
+    </label>
+
+    <label>Tip (%)
+      <input id="tip" type="number" value="10" min="0">
+    </label>
+
+    <label>Number of people
+      <input id="people" type="number" value="2" min="1">
+    </label>
+
+    <div class="results">
+      <p>Tip: <strong id="tipAmount">$0.00</strong></p>
+      <p>Total: <strong id="total">$0.00</strong></p>
+      <p>Each person pays: <strong id="each">$0.00</strong></p>
+    </div>
+  </main>
+
+  <script type="module">
+    import { calculateTip, splitBill } from "./calc.js";
+
+    const money = (n) => "$" + n.toFixed(2);
+
+    function update() {
+      const bill = Number(document.getElementById("bill").value);
+      const percent = Number(document.getElementById("tip").value);
+      const people = Number(document.getElementById("people").value);
+
+      const tip = calculateTip(bill, percent);
+      const total = bill + tip;
+
+      document.getElementById("tipAmount").textContent = money(tip);
+      document.getElementById("total").textContent = money(total);
+      document.getElementById("each").textContent =
+        people >= 1 ? money(splitBill(total, people)) : "-";
+    }
+
+    document.querySelectorAll("input").forEach((i) => i.addEventListener("input", update));
+    update();
+  </script>
+</body>
+</html>
